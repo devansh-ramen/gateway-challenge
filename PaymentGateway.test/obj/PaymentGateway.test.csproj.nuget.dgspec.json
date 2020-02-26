@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/devanshramen/Documents/devansh/checkout.com/PaymentGateway/PaymentGateway.test/PaymentGateway.test.csproj": {}
+    "/Users/devanshramen/Documents/devansh/checkout.com/gateway-challenge/PaymentGateway.test/PaymentGateway.test.csproj": {}
   },
   "projects": {
-    "/Users/devanshramen/Documents/devansh/checkout.com/PaymentGateway/PaymentGateway.test/PaymentGateway.test.csproj": {
+    "/Users/devanshramen/Documents/devansh/checkout.com/gateway-challenge/PaymentGateway.test/PaymentGateway.test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/devanshramen/Documents/devansh/checkout.com/PaymentGateway/PaymentGateway.test/PaymentGateway.test.csproj",
+        "projectUniqueName": "/Users/devanshramen/Documents/devansh/checkout.com/gateway-challenge/PaymentGateway.test/PaymentGateway.test.csproj",
         "projectName": "PaymentGateway.test",
-        "projectPath": "/Users/devanshramen/Documents/devansh/checkout.com/PaymentGateway/PaymentGateway.test/PaymentGateway.test.csproj",
+        "projectPath": "/Users/devanshramen/Documents/devansh/checkout.com/gateway-challenge/PaymentGateway.test/PaymentGateway.test.csproj",
         "packagesPath": "/Users/devanshramen/.nuget/packages/",
-        "outputPath": "/Users/devanshramen/Documents/devansh/checkout.com/PaymentGateway/PaymentGateway.test/obj/",
+        "outputPath": "/Users/devanshramen/Documents/devansh/checkout.com/gateway-challenge/PaymentGateway.test/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/devanshramen/.config/NuGet/NuGet.Config"
@@ -25,8 +25,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "/Users/devanshramen/Documents/devansh/checkout.com/PaymentGateway/PaymentGateway/PaymentGateway.csproj": {
-                "projectPath": "/Users/devanshramen/Documents/devansh/checkout.com/PaymentGateway/PaymentGateway/PaymentGateway.csproj"
+              "/Users/devanshramen/Documents/devansh/checkout.com/gateway-challenge/PaymentGateway/PaymentGateway.csproj": {
+                "projectPath": "/Users/devanshramen/Documents/devansh/checkout.com/gateway-challenge/PaymentGateway/PaymentGateway.csproj"
               }
             }
           }
@@ -76,14 +76,14 @@
         }
       }
     },
-    "/Users/devanshramen/Documents/devansh/checkout.com/PaymentGateway/PaymentGateway/PaymentGateway.csproj": {
+    "/Users/devanshramen/Documents/devansh/checkout.com/gateway-challenge/PaymentGateway/PaymentGateway.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/devanshramen/Documents/devansh/checkout.com/PaymentGateway/PaymentGateway/PaymentGateway.csproj",
+        "projectUniqueName": "/Users/devanshramen/Documents/devansh/checkout.com/gateway-challenge/PaymentGateway/PaymentGateway.csproj",
         "projectName": "PaymentGateway",
-        "projectPath": "/Users/devanshramen/Documents/devansh/checkout.com/PaymentGateway/PaymentGateway/PaymentGateway.csproj",
+        "projectPath": "/Users/devanshramen/Documents/devansh/checkout.com/gateway-challenge/PaymentGateway/PaymentGateway.csproj",
         "packagesPath": "/Users/devanshramen/.nuget/packages/",
-        "outputPath": "/Users/devanshramen/Documents/devansh/checkout.com/PaymentGateway/PaymentGateway/obj/",
+        "outputPath": "/Users/devanshramen/Documents/devansh/checkout.com/gateway-challenge/PaymentGateway/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/devanshramen/.config/NuGet/NuGet.Config"

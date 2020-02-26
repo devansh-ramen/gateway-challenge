@@ -23,17 +23,17 @@ namespace PaymentGateway
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<PaymentContext>(opt =>
-              opt.UseInMemoryDatabase("PaymentItem"));
+            //services.AddDbContext<PaymentContext>(opt =>
+            //  opt.UseInMemoryDatabase("PaymentItem"));
 
-            services.AddDbContext<MerchantContext>(opt =>
-               opt.UseInMemoryDatabase("Merchant"));
+            //services.AddDbContext<MerchantContext>(opt =>
+            //   opt.UseInMemoryDatabase("Merchant"));
 
-            //services.AddDbContext<PaymentContext>(options =>
-            //     options.UseSqlite(Configuration.GetConnectionString("GatewayDB")));
+            services.AddDbContext<PaymentContext>(options =>
+                 options.UseSqlite(Configuration.GetConnectionString("GatewayDB")));
 
-            //services.AddDbContext<MerchantContext>(options =>
-            //     options.UseSqlite(Configuration.GetConnectionString("GatewayDB")));
+            services.AddDbContext<MerchantContext>(options =>
+                 options.UseSqlite(Configuration.GetConnectionString("GatewayDB")));
 
 
             services.AddControllersWithViews();

@@ -5,9 +5,11 @@ namespace PaymentGateway.Models
     {
         public string Message { get; set; }
         public int Status { get; set; }
+        public long Id { get; set; }
 
-        public BankPaymentRes(string _Message, int Status)
+        public BankPaymentRes(long id, string _Message, int Status)
         {
+            this.Id = id;
             this.Message = _Message;
             this.Status = Status;
         }

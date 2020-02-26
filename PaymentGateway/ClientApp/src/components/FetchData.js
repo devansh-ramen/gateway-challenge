@@ -29,7 +29,7 @@ export class FetchData extends Component {
         return (
             <form onSubmit={this.handleSubmit}>
                 <label>
-                    Merchant ID:   <input type="text" name="merchantId" ref="merchantID" placeholder="MerchantID" />
+                    Enter your MerchantID:   <input type="text" name="merchantId" ref="merchantID" placeholder="MerchantID" />
                 </label>
 
                 <input type="submit" value="Submit" />
@@ -78,8 +78,7 @@ export class FetchData extends Component {
 
         return (
             <div>
-                <h1 id="tabelLabel">Payments List</h1>
-                <p>Payments by customers</p>
+                 <h1 id="tabelLabel">Payments List</h1> 
                 {contents}
             </div>
         );

@@ -17,7 +17,7 @@ namespace PaymentGateway.Controllers
                 return BadRequest(new { message = "Insufficient Funds" });
             } else
             {
-                return new BankPaymentRes("Transaction completed", 200);
+                return new BankPaymentRes(bankPaymentReq.Id, "Transaction completed", 200);
             }
         }
 

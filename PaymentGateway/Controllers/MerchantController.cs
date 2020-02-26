@@ -81,6 +81,14 @@ namespace PaymentGateway.Controllers
         public async Task<ActionResult<Merchant>> PostMerchant(Merchant merchant)
         {
             // encrypt password before saving into db
+
+            var merchantExist = await _context.Merchant.FindAsync(merchant.MerchantId);
+
+            if (merchantExist != null)
+            {
+                return BadRequest(new { message = "Could not add Merchant. MerchantID already exists in Database." });
+            }
+
             merchant.MerchantPassword = Encryption.EncryptTripleDES(merchant.MerchantPassword);
 
             _context.Merchant.Add(merchant);

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using PaymentGateway.Domain;
 using PaymentGateway.Models;
 
 namespace PaymentGateway.Controllers
@@ -33,26 +34,28 @@ namespace PaymentGateway.Controllers
             return await _paymentContext.PaymentItems.ToListAsync();
         }
 
-
-        // GET: api/PaymentItems
+        // GET: api/PaymentItems/{MERCHANT_ID} retrieve all payment items for a merchant
         [HttpGet("merchantId/{merchantId}")]
-        public async Task<ActionResult<IEnumerable<PaymentItem>>> GetPaymentItemsForMerchant(string merchantId)
+        public async Task<ActionResult<IEnumerable<PaymentReceipt>>> GetPaymentItemsForMerchant(string merchantId)
         {
             var paymentItems = await _paymentContext.PaymentItems.ToListAsync();
 
             var filteredItems = paymentItems.FindAll(paymentItem => paymentItem.MerchantId == merchantId);
+
+            List<PaymentReceipt> listReceipts = new List<PaymentReceipt>();
+
             filteredItems.ForEach(paymentItem =>
             {
-                paymentItem.CardNo = null;
+                listReceipts.Add(new PaymentReceipt(paymentItem.Id, paymentItem.MerchantId, paymentItem.CustomerId, paymentItem.DateCreated, paymentItem.Amount, paymentItem.Fee, paymentItem.Currency, paymentItem.Status));
             });
-            return filteredItems;
+
+            return listReceipts;
 
         }
 
-
-        // GET: api/PaymentItems/5 retrieve all payment items for a merchant
+        // GET: api/PaymentItems
         [HttpGet("{id}")]
-        public async Task<ActionResult<PaymentItem>> GetPaymentItem(long id)
+        public async Task<ActionResult<PaymentReceipt>> GetPaymentItem(long id)
         {
             var paymentItem = await _paymentContext.PaymentItems.FindAsync(id);
 
@@ -61,9 +64,9 @@ namespace PaymentGateway.Controllers
                 return NotFound();
             }
 
-            paymentItem.CardNo = Encryption.DecryptTripleDES(paymentItem.CardNo);
+            PaymentReceipt paymentReceipt = new PaymentReceipt(paymentItem.Id, paymentItem.MerchantId, paymentItem.CustomerId, paymentItem.DateCreated, paymentItem.Amount, paymentItem.Fee, paymentItem.Currency, paymentItem.Status);
 
-            return paymentItem;
+            return paymentReceipt;
         }
 
 
@@ -103,14 +106,14 @@ namespace PaymentGateway.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<PaymentItem>> PostPaymentItem(PaymentItem paymentItem)
+        public async Task<ActionResult<PaymentReceipt>> PostPaymentItem(PaymentItem paymentItem)
         {
 
-            if (!PaymentItemValidator.IsAmountValid(paymentItem.Amount)) 
+            if (!PaymentValidator.IsAmountValid(paymentItem.Amount))
             {
                 return BadRequest(new { message = "Invalid Amount" });
             }
-            else if (!PaymentItemValidator.IsCreditCardInfoValid(paymentItem.CardNo, paymentItem.ExpiryDate, paymentItem.Cvv))
+            else if (!PaymentValidator.IsCreditCardInfoValid(paymentItem.CardNo, paymentItem.ExpiryDate, paymentItem.Cvv))
             {
                 return BadRequest(new { message = "Invalid card number" });
             }
@@ -138,6 +141,7 @@ namespace PaymentGateway.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
                 var bankPaymentReq = new BankPaymentReq();
+                bankPaymentReq.Id = paymentItem.Id;
                 bankPaymentReq.Amount = paymentItem.Amount;
                 bankPaymentReq.CardNo = paymentItem.CardNo;
                 bankPaymentReq.MerchantId = paymentItem.MerchantId;
@@ -150,6 +154,9 @@ namespace PaymentGateway.Controllers
             }
 
             paymentItem.CardNo = Encryption.EncryptTripleDES(paymentItem.CardNo);
+            paymentItem.Cvv = Encryption.EncryptTripleDES(paymentItem.Cvv);
+            paymentItem.ExpiryDate = Encryption.EncryptTripleDES(paymentItem.ExpiryDate);
+
             paymentItem.DateCreated = DateTime.UtcNow.ToLongDateString();
 
             if (response.StatusCode.Equals(HttpStatusCode.OK))
@@ -158,14 +165,17 @@ namespace PaymentGateway.Controllers
                 System.Diagnostics.Debug.WriteLine(data);
 
                 paymentItem.Status = "success";
-                paymentItem.Fee = (float) 0.03 * paymentItem.Amount;
+                paymentItem.Fee = (float)0.03 * paymentItem.Amount;
 
                 _paymentContext.PaymentItems.Add(paymentItem);
                 await _paymentContext.SaveChangesAsync();
 
                 System.Diagnostics.Debug.WriteLine("Payment proccessed");
 
-                return CreatedAtAction("GetPaymentItem", new { id = paymentItem.Id }, paymentItem);
+                PaymentReceipt paymentReceipt = new PaymentReceipt(paymentItem.Id, paymentItem.MerchantId, paymentItem.CustomerId, paymentItem.DateCreated, paymentItem.Amount, paymentItem.Fee, paymentItem.Currency, paymentItem.Status);
+
+              //  return CreatedAtAction("GetPaymentItem", new { id = paymentItem.Id }, paymentItem);
+                return paymentReceipt;
             }
             else
             {
@@ -176,10 +186,7 @@ namespace PaymentGateway.Controllers
                 System.Diagnostics.Debug.WriteLine("Payment failed");
 
                 return BadRequest(new { message = "Bank could not process payment." });
-
             }
-
-
         }
 
         private HttpContent JsonOptions(BankPaymentReq bankPaymentReq)

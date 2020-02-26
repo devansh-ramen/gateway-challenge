@@ -13,7 +13,7 @@ namespace PaymentGateway.test
             string expiryDate = "11/2022";
             string cvv = "111";
 
-            bool isValid = PaymentItemValidator.IsCreditCardInfoValid(creditCardNumber, expiryDate, cvv);
+            bool isValid = PaymenttVValidator.IsCreditCardInfoValid(creditCardNumber, expiryDate, cvv);
 
             Assert.True(isValid);
         }
@@ -25,7 +25,7 @@ namespace PaymentGateway.test
             string expiryDate = "11/2019";
             string cvv = "111";
 
-            bool isValid = PaymentItemValidator.IsCreditCardInfoValid(creditCardNumber, expiryDate, cvv);
+            bool isValid = PaymenttVValidator.IsCreditCardInfoValid(creditCardNumber, expiryDate, cvv);
 
             Assert.False(isValid);
         }
@@ -35,7 +35,7 @@ namespace PaymentGateway.test
         {
             float amount = 100;
 
-            bool isValid = PaymentItemValidator.IsAmountValid(amount);
+            bool isValid = PaymenttVValidator.IsAmountValid(amount);
 
             Assert.True(isValid);
         }
@@ -45,7 +45,7 @@ namespace PaymentGateway.test
         {
             float amount = -10;
 
-            bool isValid = PaymentItemValidator.IsAmountValid(amount);
+            bool isValid = PaymenttVValidator.IsAmountValid(amount);
 
             Assert.False(isValid);
         }
